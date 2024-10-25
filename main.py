@@ -5,20 +5,6 @@ import schedule
 import polling
 import time
 
-# load api.ini and config.ini
-api_ini = configparser.ConfigParser()
-api_ini.read('api.ini', encoding='utf-8')
-config_ini = configparser.ConfigParser()
-config_ini.read('config_ini', encoding='utf-8')
-
-# Telegram API
-api_id = api_ini["TELEGRAM"]["api_id"]
-api_hash = api_ini["TELEGRAM"]["api_hash"]
-target_user = api_ini["TELEGRAM"]["target_user"]
-
-# Initialize Pyrogram client
-app = Client("my_account", api_id=api_id, api_hash=api_hash)
-
 
 def scheduled_job():
     with app:
@@ -29,6 +15,20 @@ def scheduled_job():
 
 
 if __name__ == "__main__":
+    # load api.ini and config.ini
+    api_ini = configparser.ConfigParser()
+    api_ini.read('api.ini', encoding='utf-8')
+    config_ini = configparser.ConfigParser()
+    config_ini.read('config.ini', encoding='utf-8')
+
+    # Telegram API
+    api_id = api_ini["TELEGRAM"]["api_id"]
+    api_hash = api_ini["TELEGRAM"]["api_hash"]
+    target_user = api_ini["TELEGRAM"]["target_user"]
+
+    # Initialize Pyrogram client
+    app = Client("my_account", api_id=api_id, api_hash=api_hash)
+
     polling.initialize_node_id_and_tag_name()
 
     schedule_time_list = eval(config_ini["POLLING"]["polling_time"])
