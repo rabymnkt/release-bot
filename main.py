@@ -4,6 +4,7 @@ from pyrogram import Client
 import schedule
 import polling
 import time
+from datetime import date, datetime
 
 
 def scheduled_job():
@@ -12,6 +13,10 @@ def scheduled_job():
         if len(url_list) != 0:
             for url in url_list:
                 app.send_message(target_user, url)
+        else:
+            now = datetime.now().time()
+            time_info = date.today() + " " + now.hour + ":" + now.minute + " : "
+            app.send_message(target_user, time_info + "New Release not Found!")
 
 
 if __name__ == "__main__":
