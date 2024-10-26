@@ -6,6 +6,27 @@ import polling
 import time
 from datetime import date, datetime
 
+# load api.ini and config.ini
+api_ini = configparser.ConfigParser()
+api_ini.read('api.ini', encoding='utf-8')
+config_ini = configparser.ConfigParser()
+config_ini.read('config.ini', encoding='utf-8')
+
+# Telegram API
+api_id = api_ini["TELEGRAM"]["api_id"]
+api_hash = api_ini["TELEGRAM"]["api_hash"]
+target_user = api_ini["TELEGRAM"]["target_user"]
+
+# Initialize Pyrogram client
+app = Client("my_account", api_id=api_id, api_hash=api_hash)
+
+
+def send_initial_message():
+    with app:
+        now = datetime.now()
+        time_info = now.strftime('%Y/%m/%d %H:%M:%S: ')
+        app.send_message(target_user, time_info + "Repo Surveillance Started!")
+
 
 def scheduled_job():
     with app:
@@ -14,25 +35,13 @@ def scheduled_job():
             for url in url_list:
                 app.send_message(target_user, url)
         else:
-            now = datetime.now().time()
-            time_info = date.today() + " " + now.hour + ":" + now.minute + " : "
+            now = datetime.now()
+            time_info = now.strftime('%Y/%m/%d %H:%M:%S: ')
             app.send_message(target_user, time_info + "New Release not Found!")
 
 
 if __name__ == "__main__":
-    # load api.ini and config.ini
-    api_ini = configparser.ConfigParser()
-    api_ini.read('api.ini', encoding='utf-8')
-    config_ini = configparser.ConfigParser()
-    config_ini.read('config.ini', encoding='utf-8')
-
-    # Telegram API
-    api_id = api_ini["TELEGRAM"]["api_id"]
-    api_hash = api_ini["TELEGRAM"]["api_hash"]
-    target_user = api_ini["TELEGRAM"]["target_user"]
-
-    # Initialize Pyrogram client
-    app = Client("my_account", api_id=api_id, api_hash=api_hash)
+    send_initial_message()
 
     polling.initialize_node_id_and_tag_name()
 

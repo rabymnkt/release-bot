@@ -46,7 +46,7 @@ def update_node_id_and_tag_name() -> list:
         for line in file:
             api_url = change_url_for_api(line)
             node_id, tag_name = get_node_id_and_tag_name(api_url)
-            for index in range(node_id_list):
+            for index in range(len(node_id_list)):
                 if node_id != node_id_list[index]:
                     updated_repos_index.append(index)
                     node_id_list[index] = node_id
