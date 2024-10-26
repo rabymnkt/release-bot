@@ -35,7 +35,7 @@ def initialize_node_id_and_tag_name():
         for line in file:
             api_url = change_url_for_api(line)
             node_id, tag_name = get_node_id_and_tag_name(api_url)
-            url_list.append(line)
+            url_list.append(line.strip())
             node_id_list.append(node_id)
             tag_name_list.append(tag_name)
 
@@ -59,7 +59,7 @@ def get_updated_repos() -> list:
     updated_repos_url = []
     updated_repos_index = update_node_id_and_tag_name()
     for index in updated_repos_index:
-        new_release_url = url_list[index] + "/release/" + tag_name_list[index]
+        new_release_url = url_list[index] + "/releases/" + tag_name_list[index]
         updated_repos_url.append(new_release_url)
 
     return updated_repos_url
