@@ -42,15 +42,13 @@ def initialize_node_id_and_tag_name():
 
 def update_node_id_and_tag_name() -> list:
     updated_repos_index = []
-    with open("repos-list.txt", "r", encoding="utf-8") as file:
-        for line in file:
-            api_url = change_url_for_api(line)
-            node_id, tag_name = get_node_id_and_tag_name(api_url)
-            for index in range(len(node_id_list)):
-                if node_id != node_id_list[index]:
-                    updated_repos_index.append(index)
-                    node_id_list[index] = node_id
-                    tag_name_list[index] = tag_name
+    for index in range(len(url_list)):
+        api_url = change_url_for_api(url_list[index])
+        node_id, tag_name = get_node_id_and_tag_name(api_url)
+        if node_id != node_id_list[index]:
+            updated_repos_index.append(index)
+            node_id_list[index] = node_id
+            tag_name_list[index] = tag_name
 
     return updated_repos_index
 
