@@ -2,7 +2,6 @@
 import configparser
 import requests
 
-
 # load api.ini
 api_ini = configparser.ConfigParser()
 api_ini.read('api.ini', encoding='utf-8')
@@ -15,7 +14,7 @@ tag_name_list = []
 def change_url_for_api(url: str) -> str:
     splited_url = url.strip().split("/")
     new_url = splited_url[0]+"/"+splited_url[1]+"/api."+splited_url[2] + \
-        "/repos/"+splited_url[3]+"/"+splited_url[4]+"/releases"
+        "/repos/"+splited_url[3]+"/"+splited_url[4]+"/releases/latest"
     return new_url
 
 
@@ -27,7 +26,7 @@ def get_node_id_and_tag_name(api_url: str):
         'X-GitHub-Api-Version': '2022-11-28'
     }
     response = requests.get(api_url, headers=headers)
-    return response.json()[0]["node_id"], response.json()[0]["tag_name"]
+    return response.json()["node_id"], response.json()["tag_name"]
 
 
 def initialize_node_id_and_tag_name():
@@ -61,3 +60,12 @@ def get_updated_repos() -> list:
         updated_repos_url.append(new_release_url)
 
     return updated_repos_url
+
+
+def get_all_repos() -> list:
+    all_repos_url = []
+    for index in range(url_list):
+        release_url = url_list[index] + "/releases/" + tag_name_list[index]
+        all_repos_url.append(release_url)
+
+    return all_repos_url

@@ -5,6 +5,7 @@ import schedule
 import polling
 import time
 from datetime import date, datetime
+import sys
 
 # load api.ini and config.ini
 api_ini = configparser.ConfigParser()
@@ -28,6 +29,18 @@ def send_initial_message():
         app.send_message(target_user, time_info + "Repo Surveillance Started!")
 
 
+def send_all_repos():
+    with app:
+        url_list = polling.get_all_repos()
+        if len(url_list) != 0:
+            for url in url_list:
+                app.send_message(target_user, url)
+        else:
+            now = datetime.now()
+            time_info = now.strftime('%Y/%m/%d %H:%M:%S: ')
+            app.send_message(target_user, time_info + "No repos registered.")
+
+
 def scheduled_job():
     with app:
         url_list = polling.get_updated_repos()
@@ -44,6 +57,13 @@ if __name__ == "__main__":
     send_initial_message()
 
     polling.initialize_node_id_and_tag_name()
+
+    args = sys.argv
+    if len(args) > 2:
+        sys.exit("Error: invalid arguments")
+    else:
+        if len(args) == 2 and args[1].isdigit() == 1:
+            send_all_repos()
 
     schedule_time_list = eval(config_ini["POLLING"]["polling_time"])
     for schedule_time in schedule_time_list:
