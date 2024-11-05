@@ -64,7 +64,7 @@ def get_updated_repos() -> list:
 
 def get_all_repos() -> list:
     all_repos_url = []
-    for index in range(url_list):
+    for index in range(len(url_list)):
         release_url = url_list[index] + "/releases/" + tag_name_list[index]
         all_repos_url.append(release_url)
 
