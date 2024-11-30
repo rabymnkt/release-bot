@@ -1,6 +1,6 @@
 # Github Release bot
 
-This bot report new releases of repositories that you want to monitor through Telegram API.
+This bot reports new releases of repositories that you want to monitor through Telegram API.
 
 ## Create api.ini
 
