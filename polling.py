@@ -9,6 +9,8 @@ api_ini.read('api.ini', encoding='utf-8')
 url_list = []
 node_id_list = []
 tag_name_list = []
+prev_node_id_list = []
+prev_tag_name_list = []
 
 
 def change_url_for_api(url: str) -> str:
@@ -37,6 +39,8 @@ def initialize_node_id_and_tag_name():
             url_list.append(line.strip())
             node_id_list.append(node_id)
             tag_name_list.append(tag_name)
+            prev_node_id_list.append(node_id)
+            prev_tag_name_list.append(tag_name)
 
 
 def update_node_id_and_tag_name() -> list:
@@ -69,3 +73,19 @@ def get_all_repos() -> list:
         all_repos_url.append(release_url)
 
     return all_repos_url
+
+
+def get_weekly_update() -> list:
+    weekly_releases = []
+    for index in range(len(node_id_list)):
+        if node_id_list[index] != prev_node_id_list[index]:
+            splited_url = url_list[index].strip().split("/")
+            repo_name = splited_url[3] + "/" + splited_url[4]
+            latest_url = url_list[index] + "/releases/latest"
+            weekly_releases.append(
+                [repo_name, prev_tag_name_list[index], tag_name_list[index], latest_url])
+
+            prev_node_id_list[index] = node_id_list[index]
+            prev_tag_name_list[index] = tag_name_list[index]
+
+    return weekly_releases
