@@ -5,10 +5,12 @@ idna==3.10
 pyaes==1.6.1
 Pyrogram==2.0.106
 PySocks==1.7.1
+python-dateutil==2.9.0.post0
 pytz==2024.2
 requests==2.32.3
 schedule==1.2.2
 setuptools==75.2.0
+six==1.16.0
 TgCrypto==1.2.5
 urllib3==2.2.3
 zope.interface==7.1.1
