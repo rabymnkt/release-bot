@@ -98,7 +98,7 @@ if __name__ == "__main__":
     for schedule_time in schedule_time_list:
         schedule.every().day.at(schedule_time).do(scheduled_job)
 
-    schedule.every().monday.at("9:00").do()
+    schedule.every().monday.at("09:00").do(weekly_job)
     while True:
         schedule.run_pending()
         time.sleep(60)
